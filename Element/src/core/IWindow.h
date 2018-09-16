@@ -5,16 +5,20 @@ namespace elm
 	namespace core{
 		class IWindow
 		{
-		protected:
+		public:
 			enum class WindowMode
 			{
 				WINDOWED, FULLSCREEN, FULLSCREEN_BORDERLESS
 			};
+		protected:
+			IWindow(std::string title, size_t width, size_t height) :
+				m_Title{ title }, m_Width{ width }, m_Height{ height }
+			{
+			}
 
-			IWindow() = default;
-			virtual ~IWindow() = 0;
+			virtual ~IWindow() = default;
 
-			virtual void SetTitle(const std::string& string) = 0;
+			virtual void SetTitle(const std::string& title) = 0;
 			virtual void Destroy() = 0;
 			virtual void Minimize() = 0;
 			virtual void Maximize() = 0;
@@ -31,7 +35,6 @@ namespace elm
 			virtual void* GetOSWindowHandle() const = 0;
 
 
-		private:
 			std::string m_Title;
 			size_t m_PosX;
 			size_t m_Posy;

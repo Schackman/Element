@@ -11,10 +11,11 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <chrono>
+#include <memory>
 
 //SDL
 #include <SDL/SDL.h>
 #include <SDL/SDL_vulkan.h>
 
 //Vulkan
-#include <vulkan/vulkan.h>
+#include <vulkan/vulkan.hpp>

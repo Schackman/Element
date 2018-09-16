@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <iostream>
-#include "core\Window.h"
+#include "core/platform/windows/WindowsWindow.h"
+#include "system\VulkanSystem.h"
 
 int main(int argc, char** argv) {
 	if (SDL_VideoInit(nullptr) == -1)
@@ -8,7 +9,10 @@ int main(int argc, char** argv) {
 		std::cout << SDL_GetError() << std::endl;
 	}
 	
-	elm::core::Window window{ "", elm::core::Window::WindowMode::WINDOWED, 1280, 720 };
+	elm::core::WindowsWindow window{ "", elm::core::IWindow::WindowMode::WINDOWED, 1280, 720 };
+	elm::sys::VulkanSystem vkSys{window.GetHandle()};
+	vkSys.Init();
+	vkSys.LogPhysicalDeviceProperties();
 
 	bool running{ true };
 	while (running)
@@ -25,6 +29,8 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
+	vkSys.ShutDown();
 	SDL_VideoQuit();
+	std::cin.get();
 	return 0;
 }

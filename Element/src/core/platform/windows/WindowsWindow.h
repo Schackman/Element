@@ -11,16 +11,17 @@ namespace elm
 		{
 
 		public:
-			WindowsWindow();
+			WindowsWindow(std::string title, IWindow::WindowMode windowMode, size_t width, size_t height);
 			virtual ~WindowsWindow();
 
 		private:
+			SDL_Window* m_pWindow;
 
 		/***********************/
 		/* Interface overrides */
 		/***********************/
 		public:
-			virtual void SetTitle(const std::string& string) override;
+			virtual void SetTitle(const std::string& title) override;
 			virtual void Destroy() override;
 			virtual void Minimize() override;
 			virtual void Maximize() override;
@@ -35,6 +36,8 @@ namespace elm
 			virtual void SetOpacity(float opacity) override;
 			virtual bool IsPointInWindow(size_t x, size_t y) const override;
 			virtual void* GetOSWindowHandle() const override;
+
+			inline SDL_Window* GetHandle() const { return m_pWindow; }
 		};
 	}
 }

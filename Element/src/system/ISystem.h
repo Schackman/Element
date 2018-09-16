@@ -2,14 +2,16 @@
 
 namespace elm
 {
-	using SystemTypeId = 
-
-	class ISystem
+	namespace sys
 	{
-	public:
-		virtual ~ISystem();
-		virtual inline const 
-	protected:
-	private:
-	};
+		class ISystem
+		{
+		public:
+			virtual ~ISystem() = default;
+		protected:
+			virtual void Init() = 0;
+			virtual void ShutDown() = 0;
+		private:
+		};
+	}
 }
