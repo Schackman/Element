@@ -53,7 +53,7 @@ namespace elm { namespace log
 		std::string m_FileName;
 		std::vector<std::string> m_LogLines;
 
-		void SetColor(const WORD& color);
+		//void SetColor(const WORD& color);
 		void Print(const std::string& message) const;
 
 		static std::shared_ptr<Logger<T>> s_Instance;
@@ -123,18 +123,18 @@ namespace elm { namespace log
 		m_LogLines.clear();
 	}
 
-	template <typename T>
+	/*template <typename T>
 	void Logger<T>::SetColor(const WORD& color)
 	{
 		m_Color = color;
-	}
+	}*/
 
 	template <typename T>
 	void Logger<T>::Print(const std::string& message) const
 	{
-		SetConsoleTextAttribute(m_ConsoleHandle, m_Color);
+		//SetConsoleTextAttribute(m_ConsoleHandle, m_Color);
 		std::cout << message;
-		SetConsoleTextAttribute(m_ConsoleHandle, m_OriginalColor);
+		//SetConsoleTextAttribute(m_ConsoleHandle, m_OriginalColor);
 	}
 
 	template <typename T>
@@ -148,27 +148,27 @@ namespace elm { namespace log
 		switch (level)
 		{
 		case LogLevel::fatal:
-			SetColor(FOREGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_RED);
+			//SetColor(FOREGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_RED);
 			lvlString = "[FATAL]";
 			break;
 		case LogLevel::error:
-			SetColor(RED, true);
-			SetBgColor(BLACK, false);
+			//SetColor(RED, true);
+			//SetBgColor(BLACK, false);
 			lvlString = "[ERROR]";
 			break;
 		case LogLevel::warning:
-			SetColor(YELLOW, true);
-			SetBgColor(BLACK, false);
+			//SetColor(YELLOW, true);
+			//SetBgColor(BLACK, false);
 			lvlString = "[WARNING]";
 			break;
 		case LogLevel::info:
-			SetColor(GREEN, true);
-			SetBgColor(BLACK, false);
+			//SetColor(GREEN, true);
+			//SetBgColor(BLACK, false);
 			lvlString = "[INFO]";
 			break;
 		default:
-			SetColor(WHITE, false);
-			SetBgColor(BLACK, false);
+			//SetColor(WHITE, false);
+			//SetBgColor(BLACK, false);
 			lvlString = "[UNKNOWN]";
 			break;
 		}
