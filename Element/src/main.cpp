@@ -14,10 +14,9 @@ int main(int argc, char** argv) {
 
 	elm::core::WindowsWindow window{ "Element Engine", elm::core::IWindow::WindowMode::WINDOWED, 1280, 720 };
 
-	elm::sys::VulkanSystem vkSys{ window.GetHandle() };
-	vkSys.Init();
-	vkSys.LogPhysicalDeviceProperties();
-
+	//elm::sys::VulkanSystem vkSys{ window.GetHandle() };
+	//vkSys.Init();
+	//vkSys.LogPhysicalDeviceProperties();
 	bool running{ true };
 	while (running)
 	{
@@ -34,7 +33,7 @@ int main(int argc, char** argv) {
 		}
 
 	}
-	vkSys.ShutDown();
+	//vkSys.ShutDown();
 	SDL_VideoQuit();
 	return 0;
 }

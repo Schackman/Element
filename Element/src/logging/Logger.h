@@ -4,20 +4,6 @@
 #include <vector>
 #include <Windows.h>
 #include <iomanip>
-#include <../util/fileio.h>
-
-#define TEXT_BITS		(WORD)0x0F
-#define BG_BITS			(WORD)0xF0
-#define BRIGHT_BIT		(WORD)0b1000
-
-#define BLACK			(WORD)0b000
-#define WHITE			(WORD)0b001
-#define YELLOW			(WORD)0b010
-#define MAGENTA			(WORD)0b011
-#define RED				(WORD)0b100
-#define CYAN			(WORD)0b101
-#define GREEN			(WORD)0b110
-#define BLUE			(WORD)0b111
 
 namespace elm { namespace log
 {
@@ -101,6 +87,7 @@ namespace elm { namespace log
 	template <typename T>
 	void Logger<T>::Error(const std::string& message)
 	{
+		
 		Log(message, LogLevel::error);
 	}
 
@@ -119,7 +106,7 @@ namespace elm { namespace log
 	template <typename T>
 	void Logger<T>::Dump()
 	{
-		utils::AppendStringsToFile(m_FileName, m_LogLines.data(), m_LogLines.size());
+//		utils::AppendStringsToFile(m_FileName, m_LogLines.data(), m_LogLines.size());
 		m_LogLines.clear();
 	}
 

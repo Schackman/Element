@@ -184,6 +184,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\event\Event.cpp" />
     <ClCompile Include="src\component\IComponent.cpp" />
     <ClCompile Include="src\core\platform\windows\WindowsWindow.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="src\util\fileio.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\event\Event.h" />
     <ClInclude Include="src\component\IComponent.h" />
     <ClInclude Include="src\core\Core.h" />
     <ClInclude Include="src\core\fwd.h" />
@@ -212,6 +214,7 @@
     <ClInclude Include="src\system\SystemManager.h" />
     <ClInclude Include="src\system\vulkan\VulkanSystem.h" />
     <ClInclude Include="src\util\fileio.h" />
+    <ClInclude Include="src\util\macro.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
