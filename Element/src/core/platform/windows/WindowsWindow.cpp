@@ -1,7 +1,7 @@
-#include <stdafx.h>
+#include <pch.h>
 #include "WindowsWindow.h"
 
-elm::core::WindowsWindow::WindowsWindow(std::string title, IWindow::WindowMode windowMode, size_t width, size_t height):
+elm::core::WindowsWindow::WindowsWindow(const std::string& title, IWindow::WindowMode windowMode, uint32_t width, uint32_t height):
 	IWindow{title, width, height}, m_pWindow{nullptr}
 {
 	Uint32 flags{ SDL_WINDOW_SHOWN | SDL_WINDOW_VULKAN };
@@ -22,6 +22,12 @@ elm::core::WindowsWindow::WindowsWindow(std::string title, IWindow::WindowMode w
 	
 	m_pWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		(int)width, (int)height, flags);
+	if (!m_pWindow)
+	{
+		std::string errorMessage{ SDL_GetError() };
+		log::Logger<WindowsWindow>::Get()->Fatal(errorMessage);
+		throw std::runtime_error{ errorMessage };
+	}
 }
 
 elm::core::WindowsWindow::~WindowsWindow()
@@ -63,14 +69,19 @@ void elm::core::WindowsWindow::Show()
 
 void elm::core::WindowsWindow::Hide()
 {
+	SDL_HideWindow(m_pWindow);
 }
 
-void elm::core::WindowsWindow::Resize(size_t w, size_t h)
+void elm::core::WindowsWindow::Resize(uint32_t w, uint32_t h)
 {
+	m_Width = w;
+	m_Height = h;
+	SDL_SetWindowSize(m_pWindow, m_Width, m_Height);
 }
 
 void elm::core::WindowsWindow::SetWindowMode(WindowMode mode)
 {
+	
 }
 
 bool elm::core::WindowsWindow::GetWindowMode()
@@ -95,14 +106,13 @@ bool elm::core::WindowsWindow::IsVisible()
 
 void elm::core::WindowsWindow::SetOpacity(float opacity)
 {
+	SDL_SetWindowOpacity(m_pWindow, opacity);
 }
 
-bool elm::core::WindowsWindow::IsPointInWindow(size_t x, size_t y) const
-{
-	return false;
-}
-
-void * elm::core::WindowsWindow::GetOSWindowHandle() const
-{
-	return nullptr;
+bool elm::core::WindowsWindow::IsPointInWindow(uint32_t x, uint32_t y) const
+{	
+	return (x > m_PosX)
+		&& (x < m_PosX + m_Width)
+		&& (y > m_PosY - m_Height)
+		&& (y < m_PosY);
 }
