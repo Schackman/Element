@@ -1,14 +1,28 @@
 #include "pch.h"
 #include "VulkanSystem.h"
-#include <stdlib.h>
+#include <sstream>
+#include <string>
 
-namespace elm{namespace sys{
+namespace elm{namespace sys
+{
+
+	std::shared_ptr<log::Logger> VulkanSystem::s_Logger{ std::shared_ptr<log::Logger>{nullptr} };
+
+	std::shared_ptr<log::Logger> VulkanSystem::GetLogger()
+	{
+		return s_Logger;
+	}
+
 	VulkanSystem::VulkanSystem(SDL_Window* pWindow):
 		m_pInstance{nullptr},
 		m_pWindow{pWindow},
 		m_Surface(nullptr),
 		m_PhysicalDevice{nullptr}
 	{
+		if (!s_Logger)
+		{
+			s_Logger = std::make_shared<log::Logger>("VULKAN", log::OutputType::console);
+		}		
 	}
 
 	VulkanSystem::~VulkanSystem()
@@ -21,7 +35,7 @@ namespace elm{namespace sys{
 		CreateInstance();
 		if (!SDL_Vulkan_CreateSurface(m_pWindow, *m_pInstance, &m_Surface))
 		{
-			std::cout << "[SDL] " << SDL_GetError() << std::endl;
+			ELM_VK_CRITICAL(SDL_GetError());
 		}
 
 		SetupDebugCallback();
@@ -63,13 +77,14 @@ namespace elm{namespace sys{
 		}
 		catch (const std::runtime_error& e)
 		{
-			std::cout << "[VULKAN] " << e.what() << std::endl;
+
+			ELM_VK_CRITICAL(e.what());
 		}
 
 		auto supportedExtensions{ vk::enumerateInstanceExtensionProperties() };
 		std::for_each(supportedExtensions.begin(), supportedExtensions.end(), [](auto e)->void
 		{
-			std::cout << e.extensionName << std::endl;
+			ELM_VK_DEBUG(e.extensionName);
 		});
 	}
 
@@ -93,13 +108,13 @@ namespace elm{namespace sys{
 		uint32_t sdlExtensionCount{};
 		if (!SDL_Vulkan_GetInstanceExtensions(m_pWindow, &sdlExtensionCount, nullptr))
 		{
-			std::cout << "[SDL] " << SDL_GetError() << std::endl;
+			ELM_VK_CRITICAL(SDL_GetError());
 		}
 
 		const char** pExtensionNames = (const char**)malloc(sizeof(const char*) * sdlExtensionCount);
 		if (!SDL_Vulkan_GetInstanceExtensions(m_pWindow, &sdlExtensionCount, pExtensionNames))
 		{
-			std::cout << "[SDL] " << SDL_GetError() << std::endl;
+			ELM_VK_CRITICAL(SDL_GetError());
 		}
 
 		for (size_t i{}; i < sdlExtensionCount; ++i)
@@ -138,16 +153,16 @@ namespace elm{namespace sys{
 		switch (messageSeverity)
 		{
 		case vk::DebugUtilsMessageSeverityFlagBitsEXT::eError:
-			ELM_ERROR(pCallbackData->pMessage);
+			ELM_VK_ERROR(pCallbackData->pMessage);
 			break;
 		case vk::DebugUtilsMessageSeverityFlagBitsEXT::eInfo:
-			ELM_INFO(pCallbackData->pMessage);
+			ELM_VK_INFO(pCallbackData->pMessage);
 			break;
 		case vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose:
-			ELM_DEBUG(pCallbackData->pMessage);
+			ELM_VK_DEBUG(pCallbackData->pMessage);
 			break;
 		case vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning:
-			ELM_WARNING(pCallbackData->pMessage);
+			ELM_VK_WARNING(pCallbackData->pMessage);
 			break;
 		}
 		// ReSharper disable once CppZeroConstantCanBeReplacedWithNullptr
@@ -234,14 +249,18 @@ namespace elm{namespace sys{
 	void VulkanSystem::LogPhysicalDeviceProperties() const
 	{
 		auto properties{GetPhysicalDeviceProperties()};
-
-		std::cout << "Physical Devices:" << std::endl;
-		std::for_each(properties.cbegin(), properties.cend(), [](auto d) -> void
+		
+		std::stringstream s{};
+		s << "Physical Devices:";
+		std::for_each(properties.cbegin(), properties.cend(), [&s](auto d) -> void
 		{
-			std::cout << "Device id: " << d.deviceID << "\tName: " << d.deviceName << std::endl;
-			std::cout << "API Version: " << d.apiVersion << std::endl;
-			std::cout << "Driver Version" << d.driverVersion << std::endl;
+			s << std::endl <<
+				"\t\t\tDevice id: " << d.deviceID << std::endl <<
+				"\t\t\t\tName: " << d.deviceName << std::endl <<
+				"\t\t\t\tAPI Version: " << d.apiVersion << std::endl <<
+				"\t\t\t\tDriver Version: " << d.driverVersion << std::endl;
 		});
+		ELM_VK_INFO(s.str());
 	}
 }}
 

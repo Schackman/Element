@@ -1,6 +1,14 @@
 #pragma once
 #include "../ISystem.h"
 
+#define ELM_VK_LOG(...)			(elm::log::Logger::WithLogger(__VA_ARGS__, elm::sys::VulkanSystem::GetLogger()))
+#define ELM_VK_TRACE(...)		(ELM_VK_LOG(__VA_ARGS__, elm::log::LogLevel::trace))
+#define ELM_VK_CRITICAL(...)	(ELM_VK_LOG(__VA_ARGS__, elm::log::LogLevel::critical))
+#define ELM_VK_ERROR(...)		(ELM_VK_LOG(__VA_ARGS__, elm::log::LogLevel::err))
+#define ELM_VK_WARNING(...)		(ELM_VK_LOG(__VA_ARGS__, elm::log::LogLevel::warn))
+#define ELM_VK_DEBUG(...)		(ELM_VK_LOG(__VA_ARGS__, elm::log::LogLevel::debug))
+#define ELM_VK_INFO(...)		(ELM_VK_LOG(__VA_ARGS__, elm::log::LogLevel::info))
+
 namespace elm
 {
 	namespace sys
@@ -18,6 +26,8 @@ namespace elm
 		class VulkanSystem final : public ISystem
 		{
 		public:
+			static std::shared_ptr<log::Logger> GetLogger();
+
 			VulkanSystem(SDL_Window* pWindow);
 			virtual ~VulkanSystem();
 			virtual void Init() override;
@@ -30,6 +40,8 @@ namespace elm
 			
 
 		private:
+			static std::shared_ptr<log::Logger> s_Logger;
+
 			std::unique_ptr<vk::Instance> m_pInstance;
 			std::vector<const char*> m_Layers;
 			SDL_Window* m_pWindow;

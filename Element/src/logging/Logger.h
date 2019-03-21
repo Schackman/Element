@@ -61,7 +61,7 @@ namespace elm { namespace log
 }}
 
 
-#define ELM_LOG(...)		(elm::log::Logger::LogMessage(__VA_ARGS__))
+#define ELM_LOG(...)		(elm::log::Logger::Default()->LogMessage(__VA_ARGS__))
 #define ELM_TRACE(...)		(elm::log::Logger::Default()->Trace(__VA_ARGS__))
 #define ELM_CRITICAL(...)	(elm::log::Logger::Default()->Critical(__VA_ARGS__))
 #define ELM_ERROR(...)		(elm::log::Logger::Default()->Error(__VA_ARGS__))
