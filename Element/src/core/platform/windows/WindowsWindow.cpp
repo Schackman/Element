@@ -25,7 +25,7 @@ elm::core::WindowsWindow::WindowsWindow(const std::string& title, IWindow::Windo
 	if (!m_pWindow)
 	{
 		std::string errorMessage{ SDL_GetError() };
-		log::Logger<WindowsWindow>::Get()->Fatal(errorMessage);
+		log::Log<WindowsWindow>::Get()->Fatal(errorMessage);
 		throw std::runtime_error{ errorMessage };
 	}
 }

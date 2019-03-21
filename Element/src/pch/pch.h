@@ -14,21 +14,17 @@
 #include <memory>
 #include <random>
 
-//SDL
+//third party
+#include <spdlog/spdlog.h>
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL_vulkan.h>
 
-//OpenGL
 #include <gl/GL.h>
-
-//Vulkan
 #include <vulkan/vulkan.hpp>
+#include <imgui.h>
 
 //Element
-#include "../logging/Logger.h"
-#include "util/macro.h"
-
-#include <imgui.h>
-#include <spdlog/spdlog.h>
+#include "../logging/LogMessage.h"
+#include "../util/macro.h"

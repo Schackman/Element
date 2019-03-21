@@ -71,9 +71,6 @@
     <ClInclude Include="src\system\vulkan\VulkanSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\logging\Logger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\util\fileio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -87,6 +84,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\event\Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\config\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\logging\LogMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

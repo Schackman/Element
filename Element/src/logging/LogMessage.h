@@ -4,6 +4,8 @@
 #include <vector>
 #include <Windows.h>
 #include <iomanip>
+#include "spdlog/sinks/rotating_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace elm { namespace log
 {
@@ -13,19 +15,19 @@ namespace elm { namespace log
 	};
 
 	template<typename T>
-	class Logger
+	class Log
 	{
 	public:
-		static std::shared_ptr<Logger<T>> Get();
+		static std::shared_ptr<Log<T>> Get();
 
-		Logger();
+		Log();
 
-		~Logger()
+		~Log()
 		{
 			Dump();
 		}
 
-		void Log(const std::string& message, LogLevel level);
+		void LogMessage(const std::string& message, LogLevel level);
 		void Fatal(const std::string& message);
 		void Error(const std::string& message);
 		void Warning(const std::string& message);
@@ -33,78 +35,72 @@ namespace elm { namespace log
 		void Dump();
 
 	private:
-		HANDLE m_ConsoleHandle;
-		WORD m_OriginalColor;
-		WORD m_Color;
+		std::shared_ptr<spdlog::logger> m_pLogger;
 		std::string m_FileName;
 		std::vector<std::string> m_LogLines;
 
 		//void SetColor(const WORD& color);
 		void Print(const std::string& message) const;
 
-		static std::shared_ptr<Logger<T>> s_Instance;
+		static std::shared_ptr<Log<T>> s_Instance;
 	};
 
 	template<typename T>
-	std::shared_ptr<Logger<T>> Logger<T>::s_Instance = std::make_shared<Logger<T>>();
+	std::shared_ptr<Log<T>> Log<T>::s_Instance = std::make_shared<Log<T>>();
 
 	template <typename T>
-	std::shared_ptr<Logger<T>> Logger<T>::Get()
+	std::shared_ptr<Log<T>> Log<T>::Get()
 	{
 		if (!s_Instance)
 		{
-			s_Instance = std::make_shared<Logger<T>>();
+			s_Instance = std::make_shared<Log<T>>();
 		}
 		return s_Instance;
 	}
 
 	template <typename T>
-	Logger<T>::Logger() :
-		m_ConsoleHandle{ GetStdHandle(STD_OUTPUT_HANDLE) },
-		m_OriginalColor{},
-		m_Color{}
+	Log<T>::Log()
 	{
-		CONSOLE_SCREEN_BUFFER_INFO info;
-		GetConsoleScreenBufferInfo(m_ConsoleHandle, &info);
-		m_OriginalColor = info.wAttributes;
-		m_Color = m_OriginalColor;
-		m_LogLines.reserve(20);
-
-		//auto sysTime = std::time(nullptr);
-		//auto formattedTime = std::put_time(localtime_(&sysTime), "%F_%H-%M-%S");
-
-		std::stringstream filename{};
-		filename << "LOG_" << rand() << ".txt";
-		m_FileName = filename.str();
+		try
+		{
+			// Create a file rotating logger with 5mb size max and 3 rotated files
+			m_pLogger = spdlog::rotating_logger_mt("elm", "logs/rotating.txt", 1048576 * 5, 3);
+			auto console = spdlog::stdout_color_mt("console");
+		}
+		catch (const spdlog::spdlog_ex& ex)
+		{
+			std::cerr << ex.what() << std::endl;
+			throw std::exception(ex);
+		}
 	}
 
 	template <typename T>
-	void Logger<T>::Fatal(const std::string& message)
+	void Log<T>::Fatal(const std::string& message)
 	{
-		Log(message, LogLevel::fatal);
+		LogMessage(message, LogLevel::fatal);
 	}
 
 	template <typename T>
-	void Logger<T>::Error(const std::string& message)
+	void Log<T>::Error(const std::string& message)
 	{
 		
-		Log(message, LogLevel::error);
+		LogMessage(message, LogLevel::error);
 	}
 
 	template <typename T>
-	void Logger<T>::Warning(const std::string& message)
+	void Log<T>::Warning(const std::string& message)
 	{
-		Log(message, LogLevel::warning);
+		LogMessage(message, LogLevel::warning);
 	}
 
 	template <typename T>
-	void Logger<T>::Info(const std::string& message)
+	void Log<T>::Info(const std::string& message)
 	{
-		Log(message, LogLevel::info);
+		LogMessage(message, LogLevel::info);
 	}
 
 	template <typename T>
-	void Logger<T>::Dump()
+	void Log<T>::Dump()
 	{
 //		utils::AppendStringsToFile(m_FileName, m_LogLines.data(), m_LogLines.size());
 		m_LogLines.clear();
@@ -117,7 +113,7 @@ namespace elm { namespace log
 	}*/
 
 	template <typename T>
-	void Logger<T>::Print(const std::string& message) const
+	void Log<T>::Print(const std::string& message) const
 	{
 		//SetConsoleTextAttribute(m_ConsoleHandle, m_Color);
 		std::cout << message;
@@ -125,7 +121,7 @@ namespace elm { namespace log
 	}
 
 	template <typename T>
-	void Logger<T>::Log(const std::string& message, LogLevel level)
+	void Log<T>::LogMessage(const std::string& message, LogLevel level)
 	{
 		//auto sysTime = std::time(nullptr);
 		//auto localTime = localtime(&sysTime);

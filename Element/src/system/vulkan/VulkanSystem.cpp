@@ -5,7 +5,7 @@
 namespace elm{namespace sys{
 
 #ifdef _DEBUG
-	std::shared_ptr<log::Logger<VulkanSystem>> VulkanSystem::s_pLogger{ elm::log::Logger<VulkanSystem>::Get() };
+	std::shared_ptr<log::Log<VulkanSystem>> VulkanSystem::s_pLogger{ elm::log::Log<VulkanSystem>::Get() };
 #endif
 
 	VulkanSystem::VulkanSystem(SDL_Window* pWindow):
