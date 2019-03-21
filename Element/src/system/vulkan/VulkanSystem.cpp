@@ -3,11 +3,6 @@
 #include <stdlib.h>
 
 namespace elm{namespace sys{
-
-#ifdef _DEBUG
-	std::shared_ptr<log::Log<VulkanSystem>> VulkanSystem::s_pLogger{ elm::log::Log<VulkanSystem>::Get() };
-#endif
-
 	VulkanSystem::VulkanSystem(SDL_Window* pWindow):
 		m_pInstance{nullptr},
 		m_pWindow{pWindow},
@@ -143,16 +138,16 @@ namespace elm{namespace sys{
 		switch (messageSeverity)
 		{
 		case vk::DebugUtilsMessageSeverityFlagBitsEXT::eError:
-			s_pLogger->Error(pCallbackData->pMessage);
+			ELM_ERROR(pCallbackData->pMessage);
 			break;
 		case vk::DebugUtilsMessageSeverityFlagBitsEXT::eInfo:
-			s_pLogger->Info(pCallbackData->pMessage);
+			ELM_INFO(pCallbackData->pMessage);
 			break;
 		case vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose:
-			s_pLogger->Fatal(pCallbackData->pMessage);
+			ELM_DEBUG(pCallbackData->pMessage);
 			break;
 		case vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning:
-			s_pLogger->Warning(pCallbackData->pMessage);
+			ELM_WARNING(pCallbackData->pMessage);
 			break;
 		}
 		// ReSharper disable once CppZeroConstantCanBeReplacedWithNullptr

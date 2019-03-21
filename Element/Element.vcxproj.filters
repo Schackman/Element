@@ -39,6 +39,12 @@
     <ClCompile Include="src\event\Event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\exception\Exception.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logging\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Core.h">
@@ -89,7 +95,10 @@
     <ClInclude Include="src\config\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\logging\LogMessage.h">
+    <ClInclude Include="src\exception\Exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\logging\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

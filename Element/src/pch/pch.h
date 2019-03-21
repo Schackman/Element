@@ -26,5 +26,6 @@
 #include <imgui.h>
 
 //Element
-#include "../logging/LogMessage.h"
+#include "../logging/Logger.h"
 #include "../util/macro.h"
+#include "../core/platform/Platform.h"

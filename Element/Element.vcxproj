@@ -184,9 +184,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\exception\Exception.cpp" />
     <ClCompile Include="src\event\Event.cpp" />
     <ClCompile Include="src\component\IComponent.cpp" />
     <ClCompile Include="src\core\platform\windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\logging\Logger.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -199,6 +201,7 @@
     <ClCompile Include="src\util\fileio.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\exception\Exception.h" />
     <ClInclude Include="src\config\config.h" />
     <ClInclude Include="src\event\Event.h" />
     <ClInclude Include="src\component\IComponent.h" />
@@ -209,7 +212,7 @@
     <ClInclude Include="src\core\IWindow.h" />
     <ClInclude Include="src\entity\EntityManager.h" />
     <ClInclude Include="src\entity\Entity.h" />
-    <ClInclude Include="src\logging\LogMessage.h" />
+    <ClInclude Include="src\logging\Logger.h" />
     <ClInclude Include="src\system\ISystem.h" />
     <ClInclude Include="src\pch\pch.h" />
     <ClInclude Include="src\system\SystemManager.h" />

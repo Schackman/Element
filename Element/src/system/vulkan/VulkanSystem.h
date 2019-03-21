@@ -1,6 +1,5 @@
 #pragma once
 #include "../ISystem.h"
-#include "../../logging/LogMessage.h"
 
 namespace elm
 {
@@ -31,12 +30,6 @@ namespace elm
 			
 
 		private:
-
-#ifdef _DEBUG
-			static std::shared_ptr<log::Log<VulkanSystem>> s_pLogger;
-#endif
-
-
 			std::unique_ptr<vk::Instance> m_pInstance;
 			std::vector<const char*> m_Layers;
 			SDL_Window* m_pWindow;
