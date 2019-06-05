@@ -115,7 +115,7 @@
       <AssemblerOutput>AssemblyCode</AssemblerOutput>
       <AssemblerListingLocation>$(IntDir)/asm</AssemblerListingLocation>
       <XMLDocumentationFileName>$(IntDir)/asm</XMLDocumentationFileName>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\Glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(ProjectDir)thirdparty\include\imgui</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
@@ -136,7 +136,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\Glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(ProjectDir)thirdparty\include\imgui</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
@@ -162,7 +162,7 @@
       <AssemblerOutput>AssemblyCode</AssemblerOutput>
       <AssemblerListingLocation>$(IntDir)/asm</AssemblerListingLocation>
       <XMLDocumentationFileName>$(IntDir)/asm</XMLDocumentationFileName>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\Glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(ProjectDir)thirdparty\include\imgui</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
@@ -187,7 +187,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\Glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(ProjectDir)thirdparty\include\imgui</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
@@ -214,8 +214,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\system\SystemManager.cpp" />
-    <ClCompile Include="src\system\vulkan\VulkanSystem.cpp" />
+    <ClCompile Include="src\renderer\opengl\GLRenderer.cpp" />
+    <ClCompile Include="src\renderer\RenderManager.cpp" />
     <ClCompile Include="src\util\fileio.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -231,10 +231,12 @@
     <ClInclude Include="src\entity\EntityManager.h" />
     <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\logging\Logger.h" />
-    <ClInclude Include="src\system\ISystem.h" />
+    <ClInclude Include="src\renderer\error\RenderError.h" />
+    <ClInclude Include="src\renderer\opengl\GLRenderer.h" />
+    <ClInclude Include="src\renderer\renderer.h" />
     <ClInclude Include="src\pch\pch.h" />
-    <ClInclude Include="src\system\SystemManager.h" />
-    <ClInclude Include="src\system\vulkan\VulkanSystem.h" />
+    <ClInclude Include="src\renderer\RenderTypes.h" />
+    <ClInclude Include="src\renderer\RenderManager.h" />
     <ClInclude Include="src\util\fileio.h" />
     <ClInclude Include="src\util\macro.h" />
   </ItemGroup>

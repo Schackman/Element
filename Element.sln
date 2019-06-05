@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Element", "Element\Element.vcxproj", "{163A550E-BF54-4565-9884-465655538D25}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "thirdparty", "thirdparty", "{28856BDB-760F-4D0F-9561-3E269742C43E}"
+	ProjectSection(SolutionItems) = preProject
+		thirdtparty\glad\Glad.vcxproj = thirdtparty\glad\Glad.vcxproj
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

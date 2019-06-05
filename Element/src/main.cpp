@@ -3,11 +3,14 @@
 #include <vld.h>
 #include <time.h>
 #include "core/platform/windows/WindowsWindow.h"
-#include "system/vulkan/VulkanSystem.h"
+#include "renderer/renderer.h"
+#include "renderer/RenderManager.h"
+//#include "renderer/vulkan/VulkanSystem.h"
 
 
 int main(int argc, char** argv) {
-	elm::log::Logger::Init();
+	using namespace elm;
+	log::Logger::Init();
 	ELM_DEBUG("Default logger initialized");
 
 	srand((unsigned int)time(nullptr));
@@ -18,11 +21,11 @@ int main(int argc, char** argv) {
 	}
 	ELM_DEBUG("SDL_VideoInit() succeeded");
 
-	elm::core::WindowsWindow window{ "Element Engine", elm::core::IWindow::WindowMode::WINDOWED, 1280, 720 };
+	core::WindowsWindow window{ "Element Engine", elm::core::IWindow::WindowMode::WINDOWED, 1280, 720 };
 
-	elm::sys::VulkanSystem vkSys{ window.GetHandle() };
-	vkSys.Init();
-	vkSys.LogPhysicalDeviceProperties();
+	renderer::RenderManager renderManager{};
+	renderManager.CreateSystem();
+	
 
 	bool running{ true };
 	while (running)
@@ -40,7 +43,7 @@ int main(int argc, char** argv) {
 		}
 
 	}
-	vkSys.ShutDown();
-	SDL_VideoQuit();
+	renderManager.Shutdown();
+;	SDL_VideoQuit();
 	return 0;
 }
