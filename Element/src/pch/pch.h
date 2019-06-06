@@ -16,14 +16,9 @@
 
 //third party
 #include <spdlog/spdlog.h>
-#define SDL_MAIN_HANDLED
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL_vulkan.h>
-
-#include <gl/GL.h>
-#include <vulkan/vulkan.hpp>
-#include <imgui/imgui.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+//#include <vulkan/vulkan.hpp>
 #include <glm/glm.hpp>
 
 //Element
