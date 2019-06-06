@@ -2,17 +2,18 @@
 
 namespace elm { namespace renderer
 {
-	struct WindowContext;
+	struct WindowContext
+	{
+		void* handle;
+	};
 	class Renderer
 	{
 	public:
-		Renderer(WindowContext* context)
-		{
-		}
+		Renderer() = default;
 
 		virtual ~Renderer() = default;
 	protected:
-		virtual int Init() = 0;
+		virtual int Init(WindowContext* context) = 0;
 		virtual void Render() const = 0;
 		virtual int ShutDown() = 0;
 	};
