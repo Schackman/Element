@@ -75,7 +75,7 @@
     <OutDir>$(SolutionDir)bin\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)intermediates\$(Platform)-$(Configuration)\</IntDir>
     <IncludePath>$(ProjectDir)src\pch;$(IncludePath);</IncludePath>
-    <LibraryPath>$(ProjectDir)thirdparty\lib\x86;$(VULKAN_SDK)\Lib32;$(LibraryPath)\</LibraryPath>
+    <LibraryPath>$(SolutionDir)thirdparty\glad\bin\$(Platform)-$(Configuration)\;$(ProjectDir)thirdparty\lib\x86;$(VULKAN_SDK)\Lib32;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -83,7 +83,7 @@
     <OutDir>$(SolutionDir)bin\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)intermediates\$(Platform)-$(Configuration)\</IntDir>
     <IncludePath>$(ProjectDir)src\pch;$(IncludePath);</IncludePath>
-    <LibraryPath>$(VulkanSDK)\Lib;$(ProjectDir)thirdparty\lib\x64;$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)thirdparty\glad\bin\$(Platform)-$(Configuration)\;$(VulkanSDK)\Lib;$(ProjectDir)thirdparty\lib\x64;$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,7 +91,7 @@
     <OutDir>$(SolutionDir)bin\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)intermediates\$(Platform)-$(Configuration)\</IntDir>
     <IncludePath>$(ProjectDir)src\pch;$(IncludePath);</IncludePath>
-    <LibraryPath>$(ProjectDir)thirdparty\lib\x86;$(VULKAN_SDK)\Lib32;$(LibraryPath)\</LibraryPath>
+    <LibraryPath>$(SolutionDir)thirdparty\glad\Release-$(Platform)\;$(ProjectDir)thirdparty\lib\x86;$(VULKAN_SDK)\Lib32;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -99,7 +99,7 @@
     <OutDir>$(SolutionDir)bin\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)intermediates\$(Platform)-$(Configuration)\</IntDir>
     <IncludePath>$(ProjectDir)src\pch;$(IncludePath);</IncludePath>
-    <LibraryPath>$(VulkanSDK)\Lib;$(ProjectDir)thirdparty\lib\x64;$(SolutionDir)lib\$(Platform);$(ProjectDir)lib\$(Platform);$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)thirdparty\glad\Release-$(Platform)\;$(VulkanSDK)\Lib;$(ProjectDir)thirdparty\lib\x64;$(SolutionDir)lib\$(Platform);$(ProjectDir)lib\$(Platform);$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -113,18 +113,23 @@
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AssemblerOutput>AssemblyCode</AssemblerOutput>
-      <AssemblerListingLocation>$(IntDir)/asm</AssemblerListingLocation>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <XMLDocumentationFileName>$(IntDir)/asm</XMLDocumentationFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\Glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(ProjectDir)thirdparty\include\imgui</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>vulkan-1.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>xcopy /y /d /i  "$(ProjectDir)thirdparty\lib\x86\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -136,16 +141,22 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\Glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(ProjectDir)thirdparty\include\imgui</AdditionalUsingDirectories>
+      <AssemblerOutput>AssemblyCode</AssemblerOutput>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>vulkan-1.lib;SDL2.lib;SDL2main.lib</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;vulkan-1.lib;</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>xcopy /y /d /i  "$(ProjectDir)thirdparty\lib\x64\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -162,7 +173,7 @@
       <AssemblerOutput>AssemblyCode</AssemblerOutput>
       <AssemblerListingLocation>$(IntDir)/asm</AssemblerListingLocation>
       <XMLDocumentationFileName>$(IntDir)/asm</XMLDocumentationFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\Glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(ProjectDir)thirdparty\include\imgui</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
@@ -170,10 +181,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>vulkan-1.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>xcopy /y /d  "$(ProjectDir)thirdparty\lib\x86\*.dll " "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -187,7 +203,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\Glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(ProjectDir)thirdparty\include\imgui</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
@@ -195,10 +211,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>vulkan-1.lib;SDL2.lib;SDL2main.lib</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;vulkan-1.lib;</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>xcopy /y /d  "$(ProjectDir)thirdparty\lib\x86\*.dll " "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\entity\Entity.cpp" />

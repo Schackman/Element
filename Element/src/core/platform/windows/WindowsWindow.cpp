@@ -1,38 +1,40 @@
 #include <pch.h>
 #include "WindowsWindow.h"
+#include <sstream>
 
-elm::core::WindowsWindow::WindowsWindow(const std::string& title, IWindow::WindowMode windowMode, uint32_t width, uint32_t height):
-	IWindow{title, width, height}, m_pWindow{nullptr}
+void ErrorCallback(int error, const char* message)
 {
-	Uint32 flags{ SDL_WINDOW_SHOWN | SDL_WINDOW_VULKAN };
-	switch (windowMode)
-	{
-	case WindowMode::WINDOWED:
-		flags |= SDL_WINDOW_RESIZABLE;
-		break;
-	case WindowMode::FULLSCREEN:
-		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-		break;
-	case WindowMode::FULLSCREEN_BORDERLESS:
-		flags |= SDL_WINDOW_BORDERLESS;
-		break;
-	default:
-		break;
-	}
-	
-	m_pWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		(int)width, (int)height, flags);
-	if (!m_pWindow)
-	{
-		std::string errorMessage{ SDL_GetError() };
-		ELM_CRITICAL(errorMessage);
-		throw std::runtime_error{ errorMessage };
-	}
+	std::stringstream s{};
+	s << "GLFW Error: (" << error << ") " << message;
+	ELM_ERROR(s. str());
 }
 
-elm::core::WindowsWindow::~WindowsWindow()
+elm::core::WindowsWindow::WindowsWindow(const std::string& title, uint32_t width, uint32_t height, WindowMode windowMode)
+	: IWindow(title, width, height, windowMode),
+	  m_pWindow(nullptr)
 {
-	Destroy();
+}
+
+void elm::core::WindowsWindow::Init()
+{
+	glfwSetErrorCallback(ErrorCallback);
+	if (!glfwInit())
+	{
+		throw std::runtime_error("failed to Initialize GLFW");
+	}
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
+	GLFWwindow* window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
+	if (!window)
+	{
+		throw std::runtime_error("failed to create GLFWwindow");
+	}
+	m_pWindow = window;
+	glfwSetKeyCallback(m_pWindow, KeyCallback);
+	glfwMakeContextCurrent(m_pWindow);
+	glfwSwapInterval(1);
+
 }
 
 void elm::core::WindowsWindow::SetTitle(const std::string& title)
@@ -40,79 +42,25 @@ void elm::core::WindowsWindow::SetTitle(const std::string& title)
 	if (m_pWindow)
 	{
 		m_Title = title;
-		SDL_SetWindowTitle(m_pWindow, title.c_str());
+		(m_pWindow, title.c_str());
 	}
+}
+
+void elm::core::WindowsWindow::SwapBuffers()
+{
+	glfwSwapBuffers(m_pWindow);
+}
+
+void elm::core::WindowsWindow::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
 void elm::core::WindowsWindow::Destroy()
 {
 	if (m_pWindow)
 	{
-		SDL_DestroyWindow(m_pWindow);
+		glfwTerminate();
 	}
-}
-
-void elm::core::WindowsWindow::Minimize()
-{
-	SDL_MinimizeWindow(m_pWindow);
-}
-
-void elm::core::WindowsWindow::Maximize()
-{
-	SDL_MaximizeWindow(m_pWindow);
-}
-
-void elm::core::WindowsWindow::Show()
-{
-	SDL_ShowWindow(m_pWindow);
-}
-
-void elm::core::WindowsWindow::Hide()
-{
-	SDL_HideWindow(m_pWindow);
-}
-
-void elm::core::WindowsWindow::Resize(uint32_t w, uint32_t h)
-{
-	m_Width = w;
-	m_Height = h;
-	SDL_SetWindowSize(m_pWindow, m_Width, m_Height);
-}
-
-void elm::core::WindowsWindow::SetWindowMode(WindowMode mode)
-{
-	
-}
-
-bool elm::core::WindowsWindow::GetWindowMode()
-{
-	return false;
-}
-
-bool elm::core::WindowsWindow::IsMaximized()
-{
-	return false;
-}
-
-bool elm::core::WindowsWindow::IsMinimized()
-{
-	return false;
-}
-
-bool elm::core::WindowsWindow::IsVisible()
-{
-	return false;
-}
-
-void elm::core::WindowsWindow::SetOpacity(float opacity)
-{
-	SDL_SetWindowOpacity(m_pWindow, opacity);
-}
-
-bool elm::core::WindowsWindow::IsPointInWindow(uint32_t x, uint32_t y) const
-{	
-	return (x > m_PosX)
-		&& (x < m_PosX + m_Width)
-		&& (y > m_PosY - m_Height)
-		&& (y < m_PosY);
 }
