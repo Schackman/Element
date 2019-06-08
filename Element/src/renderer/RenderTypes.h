@@ -22,4 +22,13 @@ namespace elm {namespace renderer
 	{
 		return static_cast<size_t>(RenderTypes::count);
 	}
+
+	template <RenderTypes R = RenderTypes::none>
+	inline constexpr std::string_view RendererName()
+	{
+		return "none";
+	};
+
 }}
+
+#define RENDERER_NAME(R) elm::renderer::RendererName<elm::renderer::RenderTypes::R>().data()

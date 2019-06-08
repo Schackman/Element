@@ -1,10 +1,11 @@
 #pragma once
 namespace elm { namespace exception
 {
-	class Exception : public std::exception
+	class Exception : public std::runtime_error
 	{
 	public:
-		Exception() = default;
+		explicit Exception(const std::string& reason) noexcept;
+	protected:
 		virtual ~Exception() = default;
 	};
 }}
