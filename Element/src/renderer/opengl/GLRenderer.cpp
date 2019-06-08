@@ -35,8 +35,8 @@ namespace elm { namespace renderer{
 		return 0;
 	}
 
-	/*const std::string& GLRenderer::GetName() const
+	std::string GLRenderer::GetName() const
 	{
 		return m_WindowInfo.name;
-	}*/
+	}
 }}

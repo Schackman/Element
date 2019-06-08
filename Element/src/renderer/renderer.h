@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 namespace elm { namespace renderer
 {
 	class Renderer
@@ -9,7 +9,7 @@ namespace elm { namespace renderer
 
 		virtual ~Renderer() = default;
 		virtual int Init() = 0;
-		virtual const std::string& GetName() const;
+		virtual std::string GetName() const = 0;
 	protected:
 		virtual void Render() const = 0;
 		virtual int ShutDown() = 0;

@@ -23,7 +23,7 @@ namespace elm { namespace renderer
 		virtual void Render() const override;
 		void Clear() const;
 		virtual int ShutDown() override;
-		virtual const std::string& GetName() const override;
+		virtual std::string GetName() const override;
 	private:
 		void* m_pHandle;
 		GLWindowInfo m_WindowInfo;
