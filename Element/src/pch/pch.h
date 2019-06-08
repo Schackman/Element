@@ -1,5 +1,4 @@
 #pragma once
-
 //STL
 #include <string>
 #include <iostream>
@@ -22,6 +21,6 @@
 #include <glm/glm.hpp>
 
 //Element
-#include "../logging/Logger.h"
-#include "../util/macro.h"
 #include "../core/platform/Platform.h"
+#include "../util/macro.h"
+#include "../logging/Logger.h"

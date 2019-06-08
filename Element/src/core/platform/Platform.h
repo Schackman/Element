@@ -1,10 +1,13 @@
 #pragma once
-
-#ifdef _WIN32
-	#define ELM_PLATFORM_WINDOWS 1
-	#define ELM_API __declspec(dllexport)
+#ifdef ELM_EXPORT
+#undef ELM_EXPORT
+#endif
+#if defined _WIN32 || _WIN64
+	#define ELM_PLATFORM_WINDOWS
+	#define ELM_EXPORT __declspec(dllexport)
+	#include <windows.h>
 #else
-	#define ELM_API
+	#define ELM_EXPORT
 #endif
 
 
