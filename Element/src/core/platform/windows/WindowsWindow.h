@@ -19,13 +19,11 @@ namespace elm { namespace core
 
 		virtual void SetWindowMode(WindowMode mode) override
 		{
-
 		}
 
 		void SwapBuffers();
 	private:
 		GLFWwindow* m_pWindow;
-
 		static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	};
 }}

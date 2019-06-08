@@ -3,6 +3,7 @@
 #include <vld.h>
 #include "core/platform/windows/WindowsWindow.h"
 #include "renderer/RenderManager.h"
+#include "core/Context.h"
 
 
 int main(int argc, char** argv) {
@@ -11,8 +12,13 @@ int main(int argc, char** argv) {
 	ELM_DEBUG("logger initialized");
 	core::WindowsWindow window{"GLFW", 1280, 720};
 	window.Init();
-	//renderer::RenderManager renderManager{};
-	//renderManager.CreateSystem();
+	const auto& windowContext = elm::WindowContext{ static_cast<void*>(window.GetHandle()) };
+	renderer::RenderManager renderManager( &windowContext );
+		
+	renderManager.CreateRenderer(renderer::RenderTypes::opengl);
+	renderManager.CurrentRenderer(renderer::RenderTypes::opengl);
+	renderManager.InitRenderer();
+	renderManager.Update();
 	while (!glfwWindowShouldClose(window.GetHandle()))
 	{
 		glfwPollEvents();

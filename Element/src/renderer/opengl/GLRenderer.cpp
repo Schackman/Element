@@ -1,37 +1,42 @@
 #include "pch.h"
 #include "GLRenderer.h"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "../../core/Context.h"
+#include <string>
 
-namespace elm {namespace renderer
-{
-	int GLRenderer::Init(WindowContext* context)
+namespace elm { namespace renderer{
+	int GLRenderer::Init()
 	{
-		assert(context);
-
-		if (!context->handle)
+		if (!m_WindowInfo.handle)
 		{
 			return -1;
 		}
-
-		glfwMakeContextCurrent(static_cast<GLFWwindow*>(context->handle));
+		glfwMakeContextCurrent(m_WindowInfo.handle);
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		return 0;
 	}
 
+	GLRenderer::GLRenderer(const WindowContext& context)
+		: m_pHandle(nullptr),
+		  m_WindowInfo{static_cast<GLFWwindow*>(context.handle), "OpenGL"}
+	{
+	}
+
 	void GLRenderer::Render() const
 	{
-
 	}
 
 	void GLRenderer::Clear() const
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		m_WindowInfo.windowHandle;
 	}
 
 	int GLRenderer::ShutDown()
 	{
 		return 0;
 	}
+
+	/*const std::string& GLRenderer::GetName() const
+	{
+		return m_WindowInfo.name;
+	}*/
 }}

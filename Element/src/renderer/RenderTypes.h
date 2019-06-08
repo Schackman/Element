@@ -13,8 +13,13 @@ namespace elm {namespace renderer
 		count = 3
 	};
 
-	inline constexpr RenderTypes NrRenderTypes()
+	inline size_t Index(RenderTypes renderType)
 	{
-		return RenderTypes::count;
+		return static_cast<size_t>(renderType);
+	}
+
+	inline constexpr size_t NrRenderTypes()
+	{
+		return static_cast<size_t>(RenderTypes::count);
 	}
 }}
