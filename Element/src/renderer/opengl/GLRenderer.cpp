@@ -4,22 +4,8 @@
 #include <string>
 
 namespace elm { namespace renderer{
-	int GLRenderer::Init()
-	{
-		if (!m_WindowInfo.handle)
-		{
-			return -1;
-		}
-		glfwMakeContextCurrent(m_WindowInfo.handle);
-		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		return 0;
-	}
 
-	GLRenderer::GLRenderer(const WindowContext& context)
-		: m_pHandle(nullptr),
-		  m_WindowInfo{static_cast<GLFWwindow*>(context.handle), "OpenGL"}
-	{
-	}
+	GLRenderer::GLRenderer(){}
 
 	void GLRenderer::Render() const
 	{
@@ -33,10 +19,5 @@ namespace elm { namespace renderer{
 	int GLRenderer::ShutDown()
 	{
 		return 0;
-	}
-
-	std::string GLRenderer::GetName() const
-	{
-		return m_WindowInfo.name;
 	}
 }}

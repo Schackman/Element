@@ -1,14 +1,16 @@
 #pragma once
 #include "RenderTypes.h"
-#include "../core/Context.h"
+#include "../util/macro.h"
 
 namespace elm { namespace renderer
 {
+	class RenderContext;
 	class Renderer;
+
 	class RenderManager final
 	{
 	public:
-		explicit RenderManager(const WindowContext* context);
+		explicit RenderManager(const RenderContext* context);
 		~RenderManager();
 		void Shutdown();
 		bool CreateRenderer(RenderTypes renderType);
@@ -19,7 +21,7 @@ namespace elm { namespace renderer
 		static constexpr size_t s_NrRenderTypes = static_cast<size_t>(RenderTypes::count);
 		std::array<Renderer*, s_NrRenderTypes> m_Renderers;
 		Renderer* m_pCurrentRenderer;
-		const WindowContext* m_pWindowContext;
+		std::shared_ptr<RenderContext> m_pRenderContext;
 		RenderManager(const RenderManager&) = delete;
 		RenderManager(RenderManager&&) = delete;
 		RenderManager operator=(const RenderManager&) = delete;

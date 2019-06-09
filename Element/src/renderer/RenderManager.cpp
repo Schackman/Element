@@ -4,16 +4,17 @@
 #include "RenderTypes.h"
 #include "renderer.h"
 #include "opengl/GLRenderer.h"
+#include "RenderContext.h"
 #ifdef ELM_VULKAN_ENABLED
 #include "vulkan/VulkanSystem.h"
 #endif
 
 namespace elm {namespace renderer
 {
-	RenderManager::RenderManager(const WindowContext* context)
+	RenderManager::RenderManager(const RenderContext* context)
 		: m_Renderers{nullptr},
 		  m_pCurrentRenderer{nullptr},
-		  m_pWindowContext{context}
+		  m_pRenderContext{context}
 	{
 		if (!context)
 		{
@@ -45,7 +46,7 @@ namespace elm {namespace renderer
 		{
 			auto& renderer = m_Renderers[Index(renderType)];
 			if (!renderer)
-				renderer = new GLRenderer{*m_pWindowContext};
+				renderer = new GLRenderer{};
 			return true;
 		}
 		return false;

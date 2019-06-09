@@ -184,10 +184,11 @@
       <XMLDocumentationFileName>$(IntDir)/asm</XMLDocumentationFileName>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(ProjectDir)thirdparty\include\imgui</AdditionalUsingDirectories>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -218,11 +219,12 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\glad\src;$(VULKAN_SDK)\include;$(ProjectDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(ProjectDir)thirdparty\include\imgui</AdditionalUsingDirectories>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>false</OmitFramePointers>
+      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -254,6 +256,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\renderer\error\RenderException.cpp" />
+    <ClCompile Include="src\renderer\opengl\GLContext.cpp" />
     <ClCompile Include="src\renderer\opengl\GLRenderer.cpp" />
     <ClCompile Include="src\renderer\RenderManager.cpp" />
     <ClCompile Include="src\util\fileio.cpp" />
@@ -264,7 +267,7 @@
     <ClInclude Include="src\config\config.h" />
     <ClInclude Include="src\event\Event.h" />
     <ClInclude Include="src\component\IComponent.h" />
-    <ClInclude Include="src\core\Core.h" />
+    <ClInclude Include="src\core\Element.h" />
     <ClInclude Include="src\core\fwd.h" />
     <ClInclude Include="src\core\platform\Platform.h" />
     <ClInclude Include="src\core\platform\windows\WindowsWindow.h" />
@@ -274,6 +277,7 @@
     <ClInclude Include="src\logging\Logger.h" />
     <ClInclude Include="src\renderer\error\RenderException.h" />
     <ClInclude Include="src\renderer\error\RenderError.h" />
+    <ClInclude Include="src\renderer\opengl\GLContext.h" />
     <ClInclude Include="src\renderer\opengl\GLRenderer.h" />
     <ClInclude Include="src\renderer\RenderContext.h" />
     <ClInclude Include="src\renderer\renderer.h" />
