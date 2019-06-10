@@ -17,7 +17,7 @@
 //third party
 #include <spdlog/spdlog.h>
 #include <glad/glad.h>
-#include <vulkan/vulkan.hpp>
+#include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 

@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "GLRenderer.h"
-#include "../../core/Context.h"
 #include <string>
 
 namespace elm { namespace renderer{

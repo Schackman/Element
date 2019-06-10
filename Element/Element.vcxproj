@@ -262,7 +262,6 @@
     <ClCompile Include="src\util\fileio.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\core\Context.h" />
     <ClInclude Include="src\core\Window.h" />
     <ClInclude Include="src\exception\Exception.h" />
     <ClInclude Include="src\config\config.h" />

@@ -1,7 +1,8 @@
-#include <pch.h>
+#include "pch.h"
+#ifdef ELM_PLATFORM_WINDOWS
+#include "../renderer/RenderContext.h"
 #include "../renderer/opengl/GLContext.h"
 #include "../exception/Exception.h"
-#ifdef ELM_PLATFORM_WINDOWS
 #include "WindowsWindow.h"
 #include <sstream>
 
@@ -9,48 +10,46 @@
 namespace elm { namespace core
 {
 #pragma region WindowsWindowMembers
-	WindowsWindow::WindowsWindow(const std::string& title, uint32_t width, uint32_t height,
-	                             WindowMode windowMode)
-		: Window(),
-		  m_pWindow(nullptr),
+
+	WindowsWindow::WindowsWindow(const WindowAttributes& attrib, const std::string& title)
+		: Window{attrib.api},
+		  m_pHandle{nullptr},
 		  m_pRenderContext(nullptr),
-		  m_Title(title),
-		  m_Width(width),
-		  m_Height(height),
-		  m_WindowMode(windowMode)
+		  m_Title{title},
+		  m_Width{attrib.width},
+		  m_Height{attrib.height},
+		  m_WindowMode{attrib.mode}
 	{
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
-		if(m_pRenderContext)
+		if (m_pRenderContext)
 		{
 			delete m_pRenderContext;
 		}
 		Destroy();
 	}
 
-	void WindowsWindow::Init()
+	volatile void WindowsWindow::Init()
 	{
 		if (!s_Initialized)
 		{
 			InitGLFW();
+			s_Initialized = true;
 		}
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-		GLFWwindow* window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
-		if (!window)
+		PrepareContext();
+		m_pHandle.glfw = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
+		if (!m_pHandle.glfw)
 		{
 			throw std::runtime_error("failed to create GLFWwindow");
 		}
-		m_pWindow = window;
-		glfwSetKeyCallback(m_pWindow, KeyCallback);
-		glfwMakeContextCurrent(m_pWindow);
+		++s_NrWindows;
+		glfwSetKeyCallback(m_pHandle.glfw, KeyCallback);
+		glfwMakeContextCurrent(m_pHandle.glfw);
 		ELM_INFO("Created " + ToString());
 
-		m_pRenderContext = new renderer::GLContext(m_pWindow);
+		m_pRenderContext = renderer::RenderContext::Create<GraphicsAPI::opengl>(m_pHandle, GetAPIVersion());
 		if (!m_pRenderContext)
 		{
 			throw exception::Exception{"RenderContext is nullptr"};
@@ -58,12 +57,22 @@ namespace elm { namespace core
 		m_pRenderContext->Init();
 	}
 
+
+	void WindowsWindow::PrepareContext()
+	{
+		glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_NATIVE_CONTEXT_API);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GetAPIVersion().versionMajor);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GetAPIVersion().versionMinor);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+		ELM_DEBUG_ONLY(glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE));
+	}
+
 	void WindowsWindow::SetTitle(const std::string& title)
 	{
-		if (m_pWindow)
+		if (m_pHandle.glfw)
 		{
 			m_Title = title;
-			glfwSetWindowTitle(m_pWindow, title.c_str());
+			glfwSetWindowTitle(m_pHandle.glfw, title.c_str());
 		}
 	}
 
@@ -87,10 +96,11 @@ namespace elm { namespace core
 
 	void WindowsWindow::Destroy()
 	{
-		if (m_pWindow)
+		if (m_pHandle.glfw)
 		{
-			glfwDestroyWindow(m_pWindow);
-			m_pWindow = nullptr;
+			glfwDestroyWindow(m_pHandle.glfw);
+			m_pHandle.glfw = nullptr;
+			--s_NrWindows;
 			ELM_INFO("Destroyed window " + m_Title);
 		}
 	}
@@ -111,7 +121,7 @@ namespace elm { namespace core
 #pragma region StaticMembers
 	Window* Window::Create(const WindowAttributes& attributes, const std::string& title)
 	{
-		return new WindowsWindow(title, attributes.width, attributes.height, attributes.mode);
+		return new WindowsWindow(attributes, title);
 	}
 
 	void WindowsWindow::InitGLFW()
@@ -125,13 +135,15 @@ namespace elm { namespace core
 
 	void WindowsWindow::ShutdownGLFW() noexcept
 	{
-		if (s_Initialized)
+		if (s_Initialized && s_NrWindows == 0)
 		{
 			glfwTerminate();
+			s_Initialized = false;
 		}
 	}
 
 	bool WindowsWindow::s_Initialized{false};
+	int WindowsWindow::s_NrWindows{0};
 #pragma endregion StaticMembers
 }}
 #endif

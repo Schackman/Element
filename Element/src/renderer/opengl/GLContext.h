@@ -1,37 +1,31 @@
 #pragma once
 #include "../RenderContext.h"
+#include <GLFW/glfw3.h>
 
 struct GLFWwindow;
 
-namespace elm { 
-	namespace core
-	{
-		class IWindow;
-	}
-
+namespace elm {
 	namespace renderer
 	{
-		struct GLWindowInfo
-		{
-			union
-			{
-				void* nativeHandle;
-				GLFWwindow* glfwHandle;
-			};
-			int apiVersionMajor;
-			int apiVersionMinor;
-		};
-
 		class GLContext final : public RenderContext
 		{
 		public:
-			explicit GLContext(GLFWwindow* w);
+			explicit GLContext(const core::Window::Handle& w, const core::APIVersion& api);
 			void Init() override;
 			void SwapBuffers() override;
 			void Destroy() noexcept override;
 			virtual ~GLContext() override;
 		private:
-			GLFWwindow* m_pWindow;
+			const GLFWwindow* m_pWindow;
+			core::APIVersion m_Version;
 
+
+			inline GLFWwindow* GetHandle() const { return const_cast<GLFWwindow*>(m_pWindow); }
 		};
+
+		template <>
+		inline RenderContext* RenderContext::Create<core::GraphicsAPI::opengl>(core::Window::Handle window, const core::APIVersion& apiVersion)
+		{
+			return new GLContext{window, apiVersion};
+		}
 }}

@@ -1,27 +1,14 @@
 #pragma once
-namespace elm {
-	struct WindowContext;
-}
+#include "../core/Window.h"
 
 namespace elm { namespace renderer
 {
-
-	enum class GraphicsAPI : unsigned
-	{
-		none = 0, opengl, direct3d, vulkan
-	};
-
 	class RenderContext
 	{
 	public:
-		/**
-		 * \brief 
-		 * \tparam R has to have elm::renderer::RenderContext as base, 
-		 * \return Pointer to created context
-		 */
-		template<typename R>
+		template<core::GraphicsAPI API>
 		[[nodiscard]]
-		static R* CreateContext(const WindowContext& window);
+		static RenderContext* Create(core::Window::Handle window, const core::APIVersion& apiVersion);
 		explicit RenderContext() = default;
 		virtual ~RenderContext() = default;
 		virtual void Init() = 0;
@@ -29,10 +16,9 @@ namespace elm { namespace renderer
 		virtual void SwapBuffers() = 0;
 	};
 
-	template <typename R>
-	R* RenderContext::CreateContext(const WindowContext& window)
+	template <>
+	inline RenderContext* RenderContext::Create<core::GraphicsAPI::none>(core::Window::Handle, const core::APIVersion&)
 	{
-		static_assert(std::is_base_of_v<RenderContext, R>);
-		return new R(window);
+		return nullptr;
 	}
 }}

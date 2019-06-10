@@ -9,7 +9,9 @@ int main(int argc, char** argv)
 	elm::log::Logger::Init();
 	using namespace elm::core;
 	ELM_DEBUG("logger initialized");
-	Window* window{Window::Create({WindowMode::windowed, 1280, 720})};
+	Window* window{
+		Window::Create({APIVersion{GraphicsAPI::opengl, 4, 6}, WindowMode::windowed, 1280U, 720U})
+	};
 	window->Init();
 	//renderManager.CreateRenderer(renderer::RenderTypes::opengl);
 	//renderManager.CurrentRenderer(renderer::RenderTypes::opengl);
