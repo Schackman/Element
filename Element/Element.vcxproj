@@ -91,7 +91,7 @@
     <OutDir>$(SolutionDir)bin\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)intermediates\$(Platform)-$(Configuration)\</IntDir>
     <IncludePath>$(ProjectDir)src\pch;$(IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)thirdparty\glad\Release-$(Platform)\;$(ProjectDir)thirdparty\lib\x86;$(VULKAN_SDK)\Lib32;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)thirdparty\glad\bin\$(Platform)-$(Configuration)\;$(ProjectDir)thirdparty\lib\x86;$(VULKAN_SDK)\Lib32;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -99,7 +99,7 @@
     <OutDir>$(SolutionDir)bin\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)intermediates\$(Platform)-$(Configuration)\</IntDir>
     <IncludePath>$(ProjectDir)src\pch;$(IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)thirdparty\glad\Release-$(Platform)\;$(VulkanSDK)\Lib;$(ProjectDir)thirdparty\lib\x64;$(SolutionDir)lib\$(Platform);$(ProjectDir)lib\$(Platform);$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)thirdparty\glad\bin\$(Platform)-$(Configuration)\;$(VulkanSDK)\Lib;$(ProjectDir)thirdparty\lib\x64;$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -126,8 +126,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>glad.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <EntryPointSymbol>
-      </EntryPointSymbol>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Message>
@@ -158,8 +157,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>glad.lib;glfw3dll.lib;vulkan-1.lib;</AdditionalDependencies>
-      <EntryPointSymbol>
-      </EntryPointSymbol>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Message>
@@ -194,15 +192,14 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>glad.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <EntryPointSymbol>
-      </EntryPointSymbol>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>xcopy /y /d  "$(ProjectDir)thirdparty\lib\x86\*.dll " "$(OutDir)"</Command>
+      <Command>xcopy /y /d /i  "$(ProjectDir)thirdparty\lib\x86\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -230,15 +227,14 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>glad.lib;glfw3dll.lib;vulkan-1.lib;</AdditionalDependencies>
-      <EntryPointSymbol>
-      </EntryPointSymbol>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>xcopy /y /d  "$(ProjectDir)thirdparty\lib\x86\*.dll " "$(OutDir)"</Command>
+      <Command>xcopy /y /d /i  "$(ProjectDir)thirdparty\lib\x64\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -23,7 +23,7 @@ namespace elm { namespace core
 		explicit WindowsWindow(const WindowAttributes& attrib, const std::string& title = "Element");
 		virtual ~WindowsWindow();
 
-		ELM_DEBUG_ONLY(std::string ToString()) const;
+		ELM_DEBUG_ONLY(std::string ToString() const);
 
 		volatile void Init() override;
 		void Destroy() override;
