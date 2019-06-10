@@ -1,8 +1,12 @@
 #pragma once
-#include "../../../renderer/RenderContext.h"
 #ifdef ELM_PLATFORM_WINDOWS
 #include "../../Window.h"
 #include <string>
+
+namespace elm {namespace renderer
+{
+	class RenderContext;
+}}
 
 namespace elm { namespace core
 {
@@ -23,7 +27,7 @@ namespace elm { namespace core
 		virtual void OnFrameEnd() override;
 	private:
 		GLFWwindow* m_pWindow;
-		std::unique_ptr<renderer::RenderContext> m_pRenderContext;
+		renderer::RenderContext* m_pRenderContext;
 		std::string m_Title;
 		uint32_t m_Width;
 		uint32_t m_Height;

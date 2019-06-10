@@ -263,15 +263,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Context.h" />
+    <ClInclude Include="src\core\Window.h" />
     <ClInclude Include="src\exception\Exception.h" />
     <ClInclude Include="src\config\config.h" />
     <ClInclude Include="src\event\Event.h" />
     <ClInclude Include="src\component\IComponent.h" />
     <ClInclude Include="src\core\Element.h" />
-    <ClInclude Include="src\core\fwd.h" />
     <ClInclude Include="src\core\platform\Platform.h" />
     <ClInclude Include="src\core\platform\windows\WindowsWindow.h" />
-    <ClInclude Include="src\core\IWindow.h" />
     <ClInclude Include="src\entity\EntityManager.h" />
     <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\logging\Logger.h" />

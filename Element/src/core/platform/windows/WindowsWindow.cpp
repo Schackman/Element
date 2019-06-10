@@ -1,4 +1,6 @@
 #include <pch.h>
+#include "../renderer/opengl/GLContext.h"
+#include "../exception/Exception.h"
 #ifdef ELM_PLATFORM_WINDOWS
 #include "WindowsWindow.h"
 #include <sstream>
@@ -11,15 +13,20 @@ namespace elm { namespace core
 	                             WindowMode windowMode)
 		: Window(),
 		  m_pWindow(nullptr),
+		  m_pRenderContext(nullptr),
 		  m_Title(title),
-		  m_Width(0),
-		  m_Height(0),
+		  m_Width(width),
+		  m_Height(height),
 		  m_WindowMode(windowMode)
 	{
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		if(m_pRenderContext)
+		{
+			delete m_pRenderContext;
+		}
 		Destroy();
 	}
 
@@ -40,8 +47,15 @@ namespace elm { namespace core
 		}
 		m_pWindow = window;
 		glfwSetKeyCallback(m_pWindow, KeyCallback);
-		glfwMakeContextCurrent(m_pWindow);;
-		ELM_INFO("Created window " + m_Title);
+		glfwMakeContextCurrent(m_pWindow);
+		ELM_INFO("Created " + ToString());
+
+		m_pRenderContext = new renderer::GLContext(m_pWindow);
+		if (!m_pRenderContext)
+		{
+			throw exception::Exception{"RenderContext is nullptr"};
+		}
+		m_pRenderContext->Init();
 	}
 
 	void WindowsWindow::SetTitle(const std::string& title)
@@ -85,7 +99,9 @@ namespace elm { namespace core
 	(
 		std::string WindowsWindow::ToString() const
 		{
-			return;
+			std::stringstream s{};
+		s << "Window{title=\"" << m_Title << "\", size=(" << m_Width << "x" << m_Height << ")}";
+		return s.str();
 		}
 	)
 
@@ -114,6 +130,8 @@ namespace elm { namespace core
 			glfwTerminate();
 		}
 	}
+
+	bool WindowsWindow::s_Initialized{false};
 #pragma endregion StaticMembers
 }}
 #endif

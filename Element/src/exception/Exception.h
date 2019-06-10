@@ -5,7 +5,6 @@ namespace elm { namespace exception
 	{
 	public:
 		explicit Exception(const std::string& reason) noexcept;
-	protected:
 		virtual ~Exception() = default;
 	};
 }}

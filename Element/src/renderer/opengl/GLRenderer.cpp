@@ -7,13 +7,17 @@ namespace elm { namespace renderer{
 
 	GLRenderer::GLRenderer(){}
 
+	int GLRenderer::Init()
+	{
+		return 0;
+	}
+
 	void GLRenderer::Render() const
 	{
 	}
 
 	void GLRenderer::Clear() const
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	int GLRenderer::ShutDown()
