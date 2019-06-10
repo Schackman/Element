@@ -6,9 +6,12 @@
 
 int main(int argc, char** argv)
 {
-	elm::log::Logger::Init();
+	ELM_DEBUG_ONLY
+	(
+		elm::log::Logger::Init();
+		ELM_DEBUG("logger initialized");
+	)
 	using namespace elm::core;
-	ELM_DEBUG("logger initialized");
 	Window* window{
 		Window::Create({APIVersion{GraphicsAPI::opengl, 4, 6}, WindowMode::windowed, 1280U, 720U})
 	};
