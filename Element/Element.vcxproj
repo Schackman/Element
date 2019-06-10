@@ -121,6 +121,10 @@
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -152,6 +156,10 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>false</OmitFramePointers>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -187,6 +195,8 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableModules>false</EnableModules>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -222,6 +232,8 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>false</OmitFramePointers>
       <EnableModules>false</EnableModules>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -238,10 +250,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\exception\Exception.cpp" />
     <ClCompile Include="src\event\Event.cpp" />
-    <ClCompile Include="src\component\IComponent.cpp" />
     <ClCompile Include="src\core\platform\windows\WindowsWindow.cpp" />
     <ClCompile Include="src\logging\Logger.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -260,14 +270,10 @@
   <ItemGroup>
     <ClInclude Include="src\core\Window.h" />
     <ClInclude Include="src\exception\Exception.h" />
-    <ClInclude Include="src\config\config.h" />
     <ClInclude Include="src\event\Event.h" />
-    <ClInclude Include="src\component\IComponent.h" />
     <ClInclude Include="src\core\Element.h" />
     <ClInclude Include="src\core\platform\Platform.h" />
     <ClInclude Include="src\core\platform\windows\WindowsWindow.h" />
-    <ClInclude Include="src\entity\EntityManager.h" />
-    <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\logging\Logger.h" />
     <ClInclude Include="src\renderer\error\RenderException.h" />
     <ClInclude Include="src\renderer\error\RenderError.h" />
