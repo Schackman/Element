@@ -37,7 +37,10 @@ namespace elm { namespace renderer
 
 	void GLContext::SwapBuffers()
 	{
+<<<<<<< HEAD
 		glfwMakeContextCurrent(m_pWindow);
+=======
+>>>>>>> dd5de048b2c22729b00651cec017d17cd5bcfa9b
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwSwapBuffers(m_pWindow);
 	}
