@@ -4,27 +4,41 @@
 
 namespace elm { namespace renderer
 {
-	GLContext::GLContext()
-		: m_pWindow(nullptr)
+	GLContext::GLContext(GLFWwindow* w)
+		: m_pWindow(w)
 	{
 	}
 
 	void GLContext::Init()
 	{
-		glfwSetErrorCallback(ErrorCallback);
-		ELM_DEBUG("Set GLFW error callback");
-
 		if (!glfwInit())
 		{
-			throw std::runtime_error("failed to Initialize GLFW");
+			throw exception::RenderException(err::Error::glfw, "failed to Initialize GLFW");
 		}
 		if (!m_pWindow)
 		{
-			return throw exception::RenderException{err::Error::null_ptr, "Window is nullptr"};
+			throw exception::RenderException{err::Error::null_ptr, "Window is nullptr"};
 		}
 		glfwMakeContextCurrent(m_pWindow);
-		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		glfwMakeContextCurrent(nullptr);
+		int succeeded = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		if (!succeeded)
+		{
+			throw exception::RenderException{err::Error::opengl, "Glad failed to load."};
+		}
+		ELM_DEBUG_ONLY
+		(
+			int major = glfwGetWindowAttrib(m_pWindow, GLFW_CONTEXT_VERSION_MAJOR);
+			int minor = glfwGetWindowAttrib(m_pWindow, GLFW_CONTEXT_VERSION_MINOR);
+			std::stringstream s{};
+			s << "Glad successfully loaded OpenGL version " << major << "." << minor;
+			ELM_INFO(s.str());
+		)
+	}
+
+	void GLContext::SwapBuffers()
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glfwSwapBuffers(m_pWindow);
 	}
 
 	void GLContext::Destroy() noexcept
@@ -33,12 +47,5 @@ namespace elm { namespace renderer
 
 	GLContext::~GLContext()
 	{
-	}
-
-	void GLContext::ErrorCallback(int error, const char* message)
-	{
-		std::stringstream s{};
-		s << "GLFW Error: (" << error << ") " << message;
-		ELM_ERROR(s.str());
 	}
 }}

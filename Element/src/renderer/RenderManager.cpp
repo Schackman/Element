@@ -13,8 +13,7 @@ namespace elm {namespace renderer
 {
 	RenderManager::RenderManager(const RenderContext* context)
 		: m_Renderers{nullptr},
-		  m_pCurrentRenderer{nullptr},
-		  m_pRenderContext{context}
+		  m_pCurrentRenderer{nullptr}
 	{
 		if (!context)
 		{
@@ -61,8 +60,6 @@ namespace elm {namespace renderer
 		}
 		renderer->Init();
 		std::stringstream s{};
-		s << "Renderer " + renderer->GetName() << " initialized.";
-		ELM_INFO(s.str());
 	}
 
 	void RenderManager::Update()
@@ -72,11 +69,6 @@ namespace elm {namespace renderer
 	void RenderManager::CurrentRenderer(RenderTypes renderType)
 	{
 		m_pCurrentRenderer = m_Renderers[Index(renderType)];
-#ifdef _DEBUG
-		if (!m_pCurrentRenderer)
-		{
-			ELM_WARNING("Set Current renderer to nullptr");
-		}
-#endif}
+		ELM_WARNING(m_pCurrentRenderer ? "" : "Set Current renderer to nullptr");
 	}
 }}

@@ -25,14 +25,13 @@ namespace elm {
 		class GLContext final : public RenderContext
 		{
 		public:
-			explicit GLContext();
+			explicit GLContext(GLFWwindow* w);
 			void Init() override;
+			void SwapBuffers() override;
 			void Destroy() noexcept override;
 			virtual ~GLContext() override;
 		private:
 			GLFWwindow* m_pWindow;
-			static bool m_GLFWInitialized;
 
-			static void ErrorCallback(int error, const char* message);
 		};
 }}

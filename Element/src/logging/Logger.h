@@ -42,7 +42,7 @@ namespace elm { namespace log
 		void Critical(const std::string& message) const;
 		void Error(const std::string& message) const;
 		void Warning(const std::string& message) const;
-		void Debug(const std::string&message) const;
+		void Debug(const std::string& message) const;
 		void Info(const std::string& message) const;
 
 	private:
@@ -55,12 +55,12 @@ namespace elm { namespace log
 
 		Logger() = default;
 
-		std::shared_ptr<spdlog::logger>	m_pLogger;
+		std::shared_ptr<spdlog::logger> m_pLogger;
 		std::shared_ptr<spdlog::logger> GetLogger() const;
 	};
 }}
 
-
+#ifdef _DEBUG
 #define ELM_LOG(...)		(elm::log::Logger::Default()->LogMessage(__VA_ARGS__))
 #define ELM_TRACE(...)		(elm::log::Logger::Default()->Trace(__VA_ARGS__))
 #define ELM_CRITICAL(...)	(elm::log::Logger::Default()->Critical(__VA_ARGS__))
@@ -68,3 +68,12 @@ namespace elm { namespace log
 #define ELM_WARNING(...)	(elm::log::Logger::Default()->Warning(__VA_ARGS__))
 #define ELM_DEBUG(...)		(elm::log::Logger::Default()->Debug(__VA_ARGS__))
 #define ELM_INFO(...)		(elm::log::Logger::Default()->Info(__VA_ARGS__))
+#else //ifdef(_DEBUG)
+#define ELM_LOG(...)
+#define ELM_TRACE(...)
+#define ELM_CRITICAL(...)
+#define ELM_ERROR(...)
+#define ELM_WARNING(...)
+#define ELM_DEBUG(...)
+#define ELM_INFO(...)
+#endif //_DEBUG

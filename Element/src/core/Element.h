@@ -1,10 +1,11 @@
 #pragma once
-#include "fwd.h"
 
 namespace elm
 {
 	namespace core
 	{
+		class Window;
+
 		class Element final
 		{
 		public:
@@ -17,7 +18,7 @@ namespace elm
 			Element& operator=(Element&&) = delete;
 
 		private:
-			IWindow* m_pWindow;
+			Window* m_pWindow;
 		};
 	}
 }
