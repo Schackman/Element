@@ -16,12 +16,14 @@ workspace "Element"
 		flags {"MultiProcessorCompile" }
 	filter "configurations:Debug"
 		symbols "On"
-
+	filter ""
+	
 	project "Element"
 		location "Element"
 		language "C++"
 		cppdialect "C++17"
 		warnings "Default"
+		entrypoint "mainCRTStartup"
 		
 		pchheader "pch.h"
 		pchsource "Element/src/pch/pch.cpp"
@@ -57,6 +59,10 @@ workspace "Element"
 			prjDeps .. "lib/%{cfg.platform}",
 		}
 		
+		postbuildcommands {
+			"{COPY} thirdparty/lib/%{cfg.platform}/*.dll" .. " ../bin/" .. outputdir .. "%{prj.name}/"
+		}
+		
 		filter "platforms:x64"
 			libdirs{vulkanDir .. "Lib"}
 		filter "platforms:x86"
@@ -70,11 +76,7 @@ workspace "Element"
 			kind("WindowedApp")
 			optimize "Full"
 			flags { "NoIncrementalLink", "LinkTimeOptimization" }
-		
-		filter "system:windows"
-			postbuildcommands {
-				"{COPY} thirdparty/lib/%{cfg.platform}/*.dll" .. " ../bin/" .. outputdir .. "%{prj.name}/"
-			}
+		filter ""
 	
 group("thirdparty")
 	project "glad"
