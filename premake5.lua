@@ -31,7 +31,6 @@ workspace "Element"
 		
 		prjDeps = "%{prj.location}/thirdparty/"
 		vulkanDir = os.getenv("VULKAN_SDK") .. "/"
-		
 		includedirs{
 			prjDeps .. "include/",
 			dependenciesDir .. "glad/include/",
@@ -48,7 +47,7 @@ workspace "Element"
 		
 		links 
 		{ 
-			"glfw3",
+			"glfw3dll",
 			"glad",
 			"opengl32",
 			"vulkan-1"
@@ -59,9 +58,9 @@ workspace "Element"
 		}
 		
 		filter "platforms:x64"
-			-- libdirs{vulkanDir .. "Lib"}
+			libdirs{vulkanDir .. "Lib"}
 		filter "platforms:x86"
-			-- libdirs{vulkanDir .. "Lib32"}
+			libdirs{vulkanDir .. "Lib32"}
 			
 		filter "configurations:Debug"
 			kind("ConsoleApp")
@@ -71,6 +70,11 @@ workspace "Element"
 			kind("WindowedApp")
 			optimize "Full"
 			flags { "NoIncrementalLink", "LinkTimeOptimization" }
+		
+		filter "system:windows"
+			postbuildcommands {
+				"{COPY} thirdparty/lib/%{cfg.platform}/*.dll" .. " ../bin/" .. outputdir .. "%{prj.name}/"
+			}
 	
 group("thirdparty")
 	project "glad"
