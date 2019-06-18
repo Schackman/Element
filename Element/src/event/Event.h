@@ -1,5 +1,7 @@
 #pragma once
+#include <string>
 #include "../util/macro.h"
+
 namespace elm { namespace event{
 	enum class EventType
 	{

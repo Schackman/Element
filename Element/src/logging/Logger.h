@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
-#include "../util/macro.h"
-#include "../core/platform/Platform.h"
+#include <vector>
+#include <spdlog/sinks/sink.h>
+#include <spdlog/logger.h>
 
 namespace elm { namespace log
 {
