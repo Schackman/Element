@@ -3,7 +3,9 @@ workspace "Element"
 	staticruntime "On"
 	startproject "Element"
 	platforms   { "x86", "x64" }	
-	outputdir = "bin/%{cfg.system}-%{cfg.architecture}-%{cfg.buildcfg}/"
+	outputdir = "%{cfg.system}-%{cfg.architecture}-%{cfg.buildcfg}/"
+	print(outputdir)
+	dependenciesDir = "thirdparty/"
 	
 	filter "platforms:x86"
 		architecture "x86"
@@ -19,56 +21,73 @@ workspace "Element"
 		location "Element"
 		language "C++"
 		cppdialect "C++17"
-		warnings "Extra"
+		warnings "Default"
+		
+		pchheader "pch.h"
+		pchsource "Element/src/pch/pch.cpp"
+		
+		targetdir ("bin/" .. outputdir .. "%{prj.name}/")
+		objdir ("intermediates/" .. outputdir .. "%{prj.name}/")
+		
+		prjDeps = "%{prj.location}/thirdparty/"
+		vulkanDir = os.getenv("VULKAN_SDK") .. "/"
 		
 		includedirs{
-		"Element/src/",
-		"Element/src/pch/",
-		"thirdparty/glad/include/"
+			prjDeps .. "include/",
+			dependenciesDir .. "glad/include/",
+			vulkanDir .. "include/",
+			"%{prj.location}/src/",
+			"%{prj.location}/src/pch/"
 		}
 		
 		files
 		{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+			"%{prj.name}/src/**.h",
+			"%{prj.name}/src/**.cpp"
 		}
 		
 		links 
 		{ 
-		"GLFW",
-		"Glad",
-		"opengl32.lib"
+			"glfw3",
+			"glad",
+			"opengl32",
+			"vulkan-1"
 		}
-		pchheader "pch.h"
-		pchsource "src/pch/pch.cpp"
-
+		
+		libdirs { 
+			prjDeps .. "lib/%{cfg.platform}",
+		}
+		
+		filter "platforms:x64"
+			-- libdirs{vulkanDir .. "Lib"}
+		filter "platforms:x86"
+			-- libdirs{vulkanDir .. "Lib32"}
+			
 		filter "configurations:Debug"
 			kind("ConsoleApp")
-			defines     "ELM_DEBUG"
+			defines "_DEBUG"
 
 		filter "configurations:Release"
 			kind("WindowedApp")
 			optimize "Full"
 			flags { "NoIncrementalLink", "LinkTimeOptimization" }
 	
-group "thirdparty"
+group("thirdparty")
 	project "glad"
-		location "%{prj.group}/%{prj.name}"
+		location(dependenciesDir .. "%{prj.name}")
 		language "C"
 		kind("StaticLib")
 		warnings "off"
 		
+		targetdir ("bin/" .. outputdir .. "%{prj.name}/")
+		objdir ("intermediates/" .. outputdir .. "%{prj.name}/")
+		
 		includedirs{
-		"%{prj.location}/include/"
+			"%{prj.location}/include/"
 		}
 		
-		srcDir = "%{prj.group}/{prj.name}/src/"
+		files{"%{prj.location}/**.h", "%{prj.location}/**.c"}
 		
-		files
-		{
-		srcDir .. "**.h",
-		srcDir .. "**.cpp"
-		}			
 		filter "configurations:Release"
 			optimize "Full"
 			flags { "NoIncrementalLink", "LinkTimeOptimization" }

@@ -24,5 +24,4 @@ bin/
 build/
 .vs/
 *.sln
-*.vcxproj
-*.vcxproj.filters
+*.vcxproj*
