@@ -1,5 +1,5 @@
 #pragma once
-#include <type_traits>
+#include <cstdint>
 template <typename... ComponentTypes>
 class ComponentRegistry;
 

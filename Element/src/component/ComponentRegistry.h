@@ -1,12 +1,14 @@
 #pragma once
-#include <typeinfo>
-
+#include "Component.h"
 namespace elm { namespace comp
 {
-	template <typename... ComponentTypes>
+	template <typename C>
 	class ComponentRegistry final
 	{
+		ASSERT_COMPONENT_TYPE(C)
+	public:
+
 	private:
-		constexpr static std::array<type_info, sizeof(ComponentTypes)> s_ComponentTypes{typeid(ComponentTypes)...};
+		std::vector<C> m_Components;
 	};
 }}
