@@ -65,6 +65,7 @@ namespace elm { namespace core
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GetAPIVersion().versionMinor);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		ELM_DEBUG_ONLY(glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE));
+		glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 	}
 
 	void WindowsWindow::SetTitle(const std::string& title)
